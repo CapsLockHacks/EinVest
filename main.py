@@ -11,8 +11,8 @@ from flask import (Flask, abort, flash, jsonify, redirect, render_template,
                    request, session)
 from kiteconnect import KiteConnect
 
-from .config import KITE_API_KEY, KITE_REQUEST_TOKEN, KITE_SECRET
-from .scaffold import *
+from config import KITE_API_KEY, KITE_REQUEST_TOKEN, KITE_SECRET
+from scaffold import *
 
 app = Flask(__name__)
 
@@ -21,6 +21,7 @@ app.logger.setLevel(logging.ERROR)
 
 app.secret_key = 'secret'
 
+log.setLevel(DEBUG)
 
 # xe.com
 xe_account_id = 'student926567212'
@@ -34,7 +35,7 @@ def initialize_kite():
 	kite = KiteConnect(api_key=KITE_API_KEY)
 
 	try:
-		with open(path.join(args.path, 'token.ini'), 'r') as the_file:
+		with open('token.ini', 'r') as the_file:
 			access_token = the_file.readline()
 			try:
 				kite.set_access_token(access_token)
@@ -51,7 +52,7 @@ def initialize_kite():
 			log.error("{}".format(str(e)))
 			exit()
 
-		with open(path.join(args.path, 'token.ini'), 'w') as the_file:
+		with open ('token.ini', 'w') as the_file:
 			the_file.write(user['access_token'])
 
 		try:
@@ -91,4 +92,8 @@ def page_not_found(error):
 
 if __name__ == '__main__':
 	port = int(os.environ.get("PORT", 5050))
+	kite_instance = initialize_kite()
+	if not check_for_tokens():
+		exit()
+	print(kite_instance)
 	app.run(host='0.0.0.0', port=port, debug=True)
