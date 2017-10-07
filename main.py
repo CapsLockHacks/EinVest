@@ -77,7 +77,7 @@ def place_order(symbol, tr_type):
 		log.info(kite_instance)
 		# Place an order
 		try:
-			order_id = kite_instance.order_place(tradingsymbol=symbol],
+			order_id = kite_instance.order_place(tradingsymbol=symbol,
 							exchange="NSE",
 							transaction_type=tr_type,
 							quantity=1,
@@ -221,9 +221,20 @@ Gnosis.create(options)
 @app.route('/compute_order/<symbol>')
 def compute_order(symbol):
 	if request.method == 'GET':
-		resp = re.get('http://10.1.24.70:8000/api/markets/').json()
-		filtered_resp = (item for item in dicts if item["results"] == "Pam").next()
-		return jsonify(resp)
+		data = re.get("http://0.0.0.0:8000/api/markets/").json()
+
+		for i in data['results']:
+			if (i['event']['oracle']['eventDescription']['title']) == symbol and i['stage']==1:
+				if (i['marginalPrices'][0] == i['marginalPrices'][1]):
+					return jsonify({"result":420})
+				elif (i['marginalPrices'][0] > i['marginalPrices'][1]):
+					tr_type = "BUY"
+				else:
+					tr_type = "SELL"
+
+		place_order(symbol,tr_type)
+	
+	return jsonify({"result":tr_type})
 
 @app.route('/convert_er/<val>/<_to>')
 def convert_eth_to_real(val, _to):
