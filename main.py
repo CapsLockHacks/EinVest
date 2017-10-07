@@ -1,6 +1,5 @@
 import logging
 import os
-import subprocess
 import sys
 from logging import DEBUG
 from os import curdir, getenv, path
@@ -23,8 +22,6 @@ app.logger.setLevel(logging.ERROR)
 app.secret_key = 'secret'
 
 log.setLevel(DEBUG)
-
-NODE_DIR="/Users/ninjapython/Work/hackathon/gnosis-dev-kit/sampleDApp/"
 
 # xe.com
 xe_account_id = 'student926567212'
@@ -72,26 +69,27 @@ def initialize_kite():
 def index():
 	return "Hello World"
 
-@app.route('/place_order', methods=['GET'])
-def place_order():
-	kite_instance = initialize_kite()
-	log.info(request.args)
-	log.info(kite_instance)
-	# Place an order
-	try:
-		order_id = kite_instance.order_place(tradingsymbol=request.args['tradingsymbol'],
-						exchange="NSE",
-						transaction_type=request.args['transaction_type'],
-						quantity=1,
-						order_type="MARKET",
-						product="CNC")
+@app.route('/place_order/<symbol>/<tr_type>/', methods=['GET'])
+def place_order(symbol, tr_type):
+	if request.method == 'GET':
+		kite_instance = initialize_kite()
+		log.info(request.args)
+		log.info(kite_instance)
+		# Place an order
+		try:
+			order_id = kite_instance.order_place(tradingsymbol=symbol],
+							exchange="NSE",
+							transaction_type=tr_type,
+							quantity=1,
+							order_type="MARKET",
+							product="CNC")
 
-		log.info("Order placed. ID is {}".format(order_id))
-	except NetworkException:
-		log.debug("SUCCESS")
-		return jsonify({"result":200})
+			log.info("Order placed. ID is {}".format(order_id))
+		except NetworkException:
+			log.debug("SUCCESS")
+			return jsonify({"result":200})
 
-	return order_id
+		return order_id
 
 @app.route('/convert_rr/<val>/<_from>/<_to>', methods=['GET'])
 def convert_real_to_real(val, _from, _to):
@@ -211,12 +209,12 @@ Gnosis.create(options)
 });
 """
 
-	with open(NODE_DIR+"temp.js", "w") as f:
+	with open("temp.js", "w") as f:
 		f.write(file_contents)
 
-	subprocess.run(["node", "temp.js"], check=True, cwd=NODE_DIR)
+	subprocess.run(["node", "temp.js"], shell=True, check=True)
 
-	return jsonify({"result":200})
+	return "Ongoing"
 
 
 
@@ -224,6 +222,7 @@ Gnosis.create(options)
 def compute_order(symbol):
 	if request.method == 'GET':
 		resp = re.get('http://10.1.24.70:8000/api/markets/').json()
+		filtered_resp = (item for item in dicts if item["results"] == "Pam").next()
 		return jsonify(resp)
 
 @app.route('/convert_er/<val>/<_to>')
