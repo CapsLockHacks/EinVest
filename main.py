@@ -11,8 +11,8 @@ from flask import (Flask, abort, flash, jsonify, redirect, render_template,
                    request, session)
 from kiteconnect import KiteConnect
 
-from .config import KITE_API_KEY, KITE_REQUEST_TOKEN, KITE_SECRET
-from .scaffold import *
+from config import KITE_API_KEY, KITE_REQUEST_TOKEN, KITE_SECRET
+from scaffold import *
 
 app = Flask(__name__)
 
@@ -83,6 +83,27 @@ def convert_real_to_real(val, _from, _to):
 
 		return jsonify(result)
 
+
+@app.route('/convert_er/<val>/<_to>')
+def convert_eth_to_real(val, _to):
+	if request.method == 'GET':
+		resp = re.get('https://api.coinbase.com/v2/exchange-rates?currency=ETH').json()
+		# rate of 1 eth to _from currency
+		rate = float(resp["data"]['rates'][_to])
+		value = float(val) * rate
+		result = {"result": str(value), 'status': 'OK'}
+		return jsonify(result)
+
+
+@app.route('/convert_re/<val>/<_from>')
+def convert_real_to_eth(val, _from):
+	if request.method == 'GET':
+		resp = re.get('https://api.coinbase.com/v2/exchange-rates?currency=ETH').json()
+		# rate of 1 eth to _from currency
+		rate = float(resp["data"]['rates'][_from])
+		value = float(val) * (1/rate)
+		result = {"result": str(value), 'status': 'OK'}
+		return jsonify(result)
 
 @app.errorhandler(404)
 def page_not_found(error):
