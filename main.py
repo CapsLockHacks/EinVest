@@ -10,7 +10,7 @@ import requests as re
 from flask import (Flask, abort, flash, jsonify, redirect, render_template,
                    request, session)
 from kiteconnect import KiteConnect
-
+from kiteconnect.exceptions import NetworkException
 from config import KITE_API_KEY, KITE_REQUEST_TOKEN, KITE_SECRET
 from scaffold import *
 
@@ -21,6 +21,7 @@ app.logger.setLevel(logging.ERROR)
 
 app.secret_key = 'secret'
 
+log.setLevel(DEBUG)
 
 # xe.com
 xe_account_id = 'student926567212'
@@ -34,7 +35,7 @@ def initialize_kite():
 	kite = KiteConnect(api_key=KITE_API_KEY)
 
 	try:
-		with open(path.join(args.path, 'token.ini'), 'r') as the_file:
+		with open('token.ini', 'r') as the_file:
 			access_token = the_file.readline()
 			try:
 				kite.set_access_token(access_token)
@@ -51,7 +52,7 @@ def initialize_kite():
 			log.error("{}".format(str(e)))
 			exit()
 
-		with open(path.join(args.path, 'token.ini'), 'w') as the_file:
+		with open ('token.ini', 'w') as the_file:
 			the_file.write(user['access_token'])
 
 		try:
@@ -68,6 +69,26 @@ def initialize_kite():
 def index():
 	return "Hello World"
 
+@app.route('/place_order', methods=['GET'])
+def place_order():
+	kite_instance = initialize_kite()
+	log.info(request.args)
+	log.info(kite_instance)
+	# Place an order
+	try:
+		order_id = kite_instance.order_place(tradingsymbol=request.args['tradingsymbol'],
+						exchange="NSE",
+						transaction_type=request.args['transaction_type'],
+						quantity=1,
+						order_type="MARKET",
+						product="CNC")
+
+		log.info("Order placed. ID is {}".format(order_id))
+	except NetworkException:
+		log.debug("SUCCESS")
+		return jsonify({"result":200})
+
+	return order_id
 
 @app.route('/convert_rr/<val>/<_from>/<_to>', methods=['GET'])
 def convert_real_to_real(val, _from, _to):
@@ -112,4 +133,7 @@ def page_not_found(error):
 
 if __name__ == '__main__':
 	port = int(os.environ.get("PORT", 5050))
+	if not check_for_tokens():
+		exit()
+	initialize_kite()
 	app.run(host='0.0.0.0', port=port, debug=True)
