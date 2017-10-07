@@ -126,7 +126,7 @@ const options = {
 
 const eventDescription = {
     title: '"""+stock+"""',
-    description: 'My first sample market.',
+    description: 'Should we buy or sell this stock?',
     resolutionDate: resolutionDate.toISOString(),
     outcomes: ['Yes', 'No'],
 };
@@ -259,7 +259,7 @@ def page_not_found(error):
 
 if __name__ == '__main__':
 	port = int(os.environ.get("PORT", 5050))
-	if not check_for_tokens():
-		exit()
-	initialize_kite()
+	#if not check_for_tokens():
+	#	exit()
+	#initialize_kite()
 	app.run(host='0.0.0.0', port=port, debug=True)
