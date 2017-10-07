@@ -217,8 +217,11 @@ Gnosis.create(options)
 
 
 
-
-
+@app.route('/compute_order/<symbol>')
+def compute_order(symbol):
+	if request.method == 'GET':
+		resp = re.get('http://10.1.24.70:8000/api/markets/').json()
+		return jsonify(resp)
 
 @app.route('/convert_er/<val>/<_to>')
 def convert_eth_to_real(val, _to):
