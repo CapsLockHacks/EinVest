@@ -236,6 +236,16 @@ def compute_order(symbol):
 	
 	return jsonify({"result":tr_type})
 
+
+@app.route('/check_predictions/')
+def check_predictions():
+	if request.method == 'GET':
+		for i in data['results']:
+			if i['stage'] == 1:
+				compute_order(i['event']['oracle']['eventDescription']['title'])
+
+
+
 @app.route('/convert_er/<val>/<_to>')
 def convert_eth_to_real(val, _to):
 	if request.method == 'GET':
