@@ -1,2 +1,1 @@
-curl -X GET \
-  http://localhost:5050/check_predictions
+curl http://localhost:5050/check_predictions/

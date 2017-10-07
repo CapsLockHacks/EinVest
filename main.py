@@ -239,11 +239,13 @@ def compute_order(symbol):
 
 @app.route('/check_predictions/')
 def check_predictions():
+	data = re.get("http://0.0.0.0:8000/api/markets/").json()
 	if request.method == 'GET':
 		for i in data['results']:
 			if i['stage'] == 1:
 				compute_order(i['event']['oracle']['eventDescription']['title'])
 
+	return jsonify({"result":200})
 
 
 @app.route('/convert_er/<val>/<_to>')
