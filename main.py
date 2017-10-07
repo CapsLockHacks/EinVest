@@ -1,5 +1,6 @@
 import logging
 import os
+import subprocess
 import sys
 from logging import DEBUG
 from os import curdir, getenv, path
@@ -22,6 +23,8 @@ app.logger.setLevel(logging.ERROR)
 app.secret_key = 'secret'
 
 log.setLevel(DEBUG)
+
+NODE_DIR="/Users/ninjapython/Work/hackathon/gnosis-dev-kit/sampleDApp/"
 
 # xe.com
 xe_account_id = 'student926567212'
@@ -208,12 +211,12 @@ Gnosis.create(options)
 });
 """
 
-	with open("temp.js", "w") as f:
+	with open(NODE_DIR+"temp.js", "w") as f:
 		f.write(file_contents)
 
-	subprocess.run(["node", "temp.js"], shell=True, check=True)
+	subprocess.run(["node", "temp.js"], check=True, cwd=NODE_DIR)
 
-	return "Ongoing"
+	return jsonify({"result":200})
 
 
 
