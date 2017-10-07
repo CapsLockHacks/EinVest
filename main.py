@@ -105,6 +105,14 @@ def convert_real_to_eth(val, _from):
 		result = {"result": str(value), 'status': 'OK'}
 		return jsonify(result)
 
+
+@app.route('/nav/<fa>/<fl>/<os>')
+def calculate_nav(fa, fl, os):
+	if request.method == 'GET':
+		nav = (float(fa) - float(fl)) / float(os)
+		return jsonify({"result": str(nav), 'status': 'OK'})
+
+
 @app.errorhandler(404)
 def page_not_found(error):
 	return "Not Found"
