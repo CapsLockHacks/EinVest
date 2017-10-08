@@ -40,6 +40,10 @@ Escrow your Ethereum with us and we will invest in the Indian Stock Market using
 - After this we wrote our main business logic algorithm which decides to purchase/sell stocks listed on our prediction market based on the current sentiment of our Analyst team using the integration of Kite API.
 - The platform transactions happen through the Metamask chrome extension page seamlessly on the testrpc as well as Ropsten Test Exchange.
 
+## Architecture
+![arch](screenies/Screenshot_2017-10-08_18-12-08.png)
+
+
 ## Challenges we ran into
 
 - This was our first Blockchain based event and we had to rely on reading a lot of documentation (often incomplete / deprecated due to the fast pace of this tech)
