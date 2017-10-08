@@ -8,7 +8,7 @@ import requests as re
 
 from flask import (Flask, abort, flash, jsonify, redirect, render_template,
                    request, session)
-# from flask_cors import CORS
+from flask_cors import CORS
 from kiteconnect import KiteConnect
 from kiteconnect.exceptions import NetworkException
 from config import KITE_API_KEY, KITE_REQUEST_TOKEN, KITE_SECRET
@@ -16,9 +16,9 @@ from scaffold import *
 import subprocess
 
 app = Flask(__name__)
-# CORS(app)
+CORS(app)
 
-NODE_DIR="/Users/ninjapython/Work/hackathon/gnosis-dev-kit/sampleDApp/"
+NODE_DIR="/Users/ninjapython/Work/hack-project/gnosis-dev-kit/sampleDApp/"
 
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
 app.logger.setLevel(logging.ERROR)
@@ -243,6 +243,7 @@ def compute_order(symbol):
 @app.route('/check_predictions/')
 def check_predictions():
 	data = re.get("http://0.0.0.0:8000/api/markets/").json()
+	log.info(data)
 	if request.method == 'GET':
 		for i in data['results']:
 			if i['stage'] == 1:
