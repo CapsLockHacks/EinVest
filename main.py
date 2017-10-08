@@ -8,14 +8,17 @@ import requests as re
 
 from flask import (Flask, abort, flash, jsonify, redirect, render_template,
                    request, session)
-from flask_cors import CORS
+# from flask_cors import CORS
 from kiteconnect import KiteConnect
 from kiteconnect.exceptions import NetworkException
 from config import KITE_API_KEY, KITE_REQUEST_TOKEN, KITE_SECRET
 from scaffold import *
+import subprocess
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
+
+NODE_DIR="/Users/ninjapython/Work/hackathon/gnosis-dev-kit/sampleDApp/"
 
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
 app.logger.setLevel(logging.ERROR)
@@ -209,13 +212,12 @@ Gnosis.create(options)
   console.warn('Make sure that Gnosis Development kit is up and running');
 });
 """
-
-	with open("temp.js", "w") as f:
+	with open(NODE_DIR+"temp.js", "w") as f:
 		f.write(file_contents)
 
-	subprocess.run(["node", "temp.js"], shell=True, check=True)
+	subprocess.run(["node", "temp.js"], check=True, cwd=NODE_DIR)
 
-	return "Ongoing"
+	return jsonify({"result":200})
 
 
 
@@ -257,7 +259,7 @@ def convert_eth_to_real(val, _to):
 		rate = float(resp["data"]['rates'][_to])
 		value = float(val) * rate
 		result = {"result": str(value), 'status': 'OK'}
-		return jsonify(result)
+		return str(value)
 
 
 @app.route('/convert_re/<val>/<_from>')

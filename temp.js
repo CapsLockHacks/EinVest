@@ -16,7 +16,7 @@ const options = {
 
 const eventDescription = {
     title: 'INFY',
-    description: 'My first sample market.',
+    description: 'Should we buy or sell this stock?',
     resolutionDate: resolutionDate.toISOString(),
     outcomes: ['Yes', 'No'],
 };
