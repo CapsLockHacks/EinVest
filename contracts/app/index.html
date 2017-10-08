@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EinVest - Hedge Fund for Indian Capital Markets</title>
+  <link href="https://bootswatch.com/paper/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css" rel="stylesheet" type="text/css" />
+  <script src="./app.js"></script>
+</head>
+<body>
+  <h1 id="heading">EinVest</h1>
+  <h2>Hedge Fund for Indian Stock Markets</h2>
+  <h3>You have <span class="black"><span id="balance"></span class="hint"> ETH</span></h3>
+  <h4> Current NAV <span id="currentnav"></span></h4>
+  <br>
+  <h1>Send Eth</h1>
+  <br><label for="amount">Amount:</label><input type="text" id="amount" placeholder="e.g., 95"></input>
+  <br><br>
+  <a href="#" onclick="App.payoutToSeller()" class="btn btn-primary btn-lg">Send ETH</a>
+  <br><br>
+  <span id="status"></span>
+  <br>
+</body>
+</html>

@@ -4,17 +4,18 @@ import sys
 from logging import DEBUG
 from os import curdir, getenv, path
 from sys import exit
-
 import requests as re
 
 from flask import (Flask, abort, flash, jsonify, redirect, render_template,
                    request, session)
+from flask_cors import CORS
 from kiteconnect import KiteConnect
 from kiteconnect.exceptions import NetworkException
 from config import KITE_API_KEY, KITE_REQUEST_TOKEN, KITE_SECRET
 from scaffold import *
 
 app = Flask(__name__)
+CORS(app)
 
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
 app.logger.setLevel(logging.ERROR)
@@ -274,7 +275,7 @@ def convert_real_to_eth(val, _from):
 def calculate_nav(fa, fl, os):
 	if request.method == 'GET':
 		nav = (float(fa) - float(fl)) / float(os)
-		return jsonify({"result": str(nav), 'status': 'OK'})
+		return str(nav)
 
 
 @app.errorhandler(404)
