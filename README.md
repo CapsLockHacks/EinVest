@@ -1,5 +1,5 @@
 <img src="screenies/einvest.png" align="left" width="225px" height="150"/>
-<img align="left" width="0" height="192px" hspace="20"/>
+<img align="left" width="0" height="225px" hspace="20"/>
 
 # :chart_with_upwards_trend:einvest.co
 
@@ -7,6 +7,14 @@
 
 >Escrow your Ethereum with us and we will invest in the Indian Stock Market using our Gnosis based Prediction Market
 
+
+---
+
+&nbsp;
+
+## Demo Video
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/ujw1wv_r31U/0.jpg)](https://www.youtube.com/watch?v=ujw1wv_r31U)
 
 ## Inspiration
 
