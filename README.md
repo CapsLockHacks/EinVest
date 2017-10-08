@@ -14,7 +14,7 @@
 
 ## Demo Video
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/bC_8Q4ISjRY/0.jpg)](https://www.youtube.com/watch?v=bC_8Q4ISjRY)
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/ZOCm-UEosIM/0.jpg)](https://www.youtube.com/watch?v=ZOCm-UEosIM)
 
 ## Inspiration
 
