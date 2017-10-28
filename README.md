@@ -43,12 +43,3 @@ Escrow your Ethereum with us and we will invest in the Indian Stock Market using
 ## Architecture
 ![arch](screenies/Screenshot_2017-10-08_18-12-08.png)
 
-
-## Challenges we ran into
-
-- This was our first Blockchain based event and we had to rely on reading a lot of documentation (often incomplete / deprecated due to the fast pace of this tech)
-- We constantly battled between the fundamental differences between web apps and Dapps.
-
-## Accomplishments that we're proud of
-- We were able to integrate a lot of APIs in time along with our business logic.
-- Complete a project on something that is cutting edge.
